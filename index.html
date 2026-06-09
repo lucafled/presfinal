@@ -1,352 +1,717 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Los Algorítmicos — Analítica Musical</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Evidencia 2: Impacto de TikTok y Sistema de Recomendación</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
 
-  <!-- NAV -->
-  <nav class="nav" id="nav">
-    <div class="nav-logo">Los Algorítmicos</div>
-    <ul class="nav-links">
-      <li><a href="#eda">EDA</a></li>
-      <li><a href="#canciones">Canciones</a></li>
-      <li><a href="#metodologia">Metodología</a></li>
-      <li><a href="#recomendador">kNN</a></li>
-      <li><a href="#conclusiones">Conclusiones</a></li>
-    </ul>
-    <button class="nav-hamburger" id="hamburger" aria-label="Abrir menú">&#9776;</button>
-  </nav>
-
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero-noise"></div>
-    <div class="hero-waveform" aria-hidden="true" id="heroWave"></div>
-    <div class="hero-content">
-      <p class="hero-eyebrow">Evidencia 2 · Analítica de Datos · Grupo 570/601</p>
-      <h1 class="hero-title">
-        ¿Tus gustos<br />
-        <span class="hero-accent">son tuyos?</span>
-      </h1>
-      <p class="hero-subtitle">
-        Cómo TikTok reconfigura la identidad musical de una generación —
-        desde la encuesta hasta el algoritmo k-NN.
+    <!-- ══════════════════════ PORTADA ══════════════════════ -->
+    <header class="portada">
+      <p class="etiqueta">Evidencia 2 &bull; Analítica de Datos Musicales</p>
+      <h1>Un recorrido por los impactos de TikTok en nuestros gustos musicales y su modelado algorítmico.</h1>
+      <p class="bajada">
+        Análisis exploratorio, consideraciones éticas y despliegue de un sistema de recomendación interactivo basado en el comportamiento de consumo de jóvenes universitarios.
       </p>
-      <div class="hero-team">
-        <span>Luca Flores</span><span>Ximena Hernandez</span>
-        <span>Daniela Medina</span><span>Oswaldo Domínguez</span>
+      <div class="meta-bloque">
+        <p class="meta"><strong>Equipo:</strong> Los Algorítmicos</p>
+        <p class="meta"><strong>Grupo:</strong> 570 / 601</p>
+        <p class="meta">
+          <strong>Integrantes:</strong><br>
+          Luca Flores A01783655 &bull; Ximena Hernandez A01782567 &bull;
+          Daniela Medina A01789070 &bull; Oswaldo Domínguez A01783184
+        </p>
+        <p class="meta links-proyecto">
+          <a href="https://github.com/lucafled/RECOMENDADOR-FINAL" target="_blank" rel="noopener noreferrer">Repositorio GitHub</a> &bull;
+          <a href="https://lucafled.github.io/RECOMENDADOR-FINAL/" target="_blank" rel="noopener noreferrer">Sitio Web del Recomendador</a>
+        </p>
       </div>
-      <a href="#eda" class="hero-cta">Explorar el análisis ↓</a>
-    </div>
-    <div class="hero-stats" aria-hidden="true">
-      <div class="hero-stat"><span class="stat-num" data-target="25">0</span><span class="stat-lbl">participantes</span></div>
-      <div class="hero-stat"><span class="stat-num" data-target="30">0</span><span class="stat-lbl">canciones</span></div>
-      <div class="hero-stat"><span class="stat-num" data-target="7">0</span><span class="stat-lbl">géneros</span></div>
-    </div>
-  </header>
+    </header>
 
-  <!-- SECTION 1: EDA -->
-  <section class="section" id="eda">
-    <div class="section-inner">
-      <div class="section-header">
-        <p class="eyebrow">01 — Análisis Exploratorio</p>
-        <h2>¿Quién respondió y qué escucha?</h2>
-        <p class="section-desc">Muestra controlada de 25 estudiantes universitarios de 18–21 años que calificaron 30 canciones en escala 1–5.</p>
-      </div>
+    <main>
 
-      <div class="charts-grid">
-
-        <div class="chart-card chart-card--wide">
-          <div class="chart-card-header">
-            <h3>Género musical favorito</h3>
-            <p>Distribución de preferencias declaradas</p>
-          </div>
-          <div class="chart-container" style="height:280px">
-            <canvas id="cGenMusical" role="img" aria-label="Géneros musicales favoritos de los 25 encuestados"></canvas>
-          </div>
-          <div class="chart-legend" id="legendGenMusical"></div>
+      <!-- ══════════════════════ INTRO ══════════════════════ -->
+      <section class="intro">
+        <p class="lead">
+          ¿Cómo transforma el algoritmo de TikTok nuestra identidad musical? Desliza horizontalmente para explorar el ciclo completo de los datos, desde la encuesta hasta el algoritmo $k$-NN.
+        </p>
+        <div class="indicador-scroll" aria-hidden="true">
+          <span class="flecha"></span>
         </div>
+      </section>
 
-        <div class="chart-card">
-          <div class="chart-card-header">
-            <h3>Distribución de género</h3>
-            <p>Identidad de los participantes</p>
-          </div>
-          <div class="chart-container" style="height:220px">
-            <canvas id="cGenero" role="img" aria-label="13 femenino, 12 masculino"></canvas>
-          </div>
-          <div class="chart-legend" id="legendGenero"></div>
-        </div>
+      <!-- ══════════════════════ CARRUSEL ══════════════════════ -->
+      <section class="recorrido" id="recorrido" aria-label="Relato con desplazamiento horizontal">
+        <div class="visor">
+          <div class="barra"><span id="progreso"></span></div>
+          <div class="pista" id="pista">
 
-        <div class="chart-card">
-          <div class="chart-card-header">
-            <h3>Edad</h3>
-            <p>Rango 18–21 años</p>
-          </div>
-          <div class="chart-container" style="height:220px">
-            <canvas id="cEdad" role="img" aria-label="Mayoría de 19 años con 17 participantes"></canvas>
-          </div>
-        </div>
+            <article class="panel panel-contexto">
+              <p class="etiqueta">1. Contexto e Introducción</p>
+              <h2>Justificación y Objetivos</h2>
+              <div class="scroll-interno">
+                <p><strong>¿Qué problema resuelven los sistemas de recomendación?</strong> Resuelven la sobrecarga de información (infoxicación) mitigando la fatiga de elección de los usuarios en plataformas de streaming, filtrando catálogos masivos para entregar contenido altamente personalizado.</p>
+                <p><strong>¿Qué tipo de recomendador implementaron?</strong> Desarrollamos un sistema de <strong>Filtrado Colaborativo Ítem-Ítem</strong> optimizado mediante el Algoritmo de Vecinos Más Cercanos ($k$-NN) y corregido a través de un Promedio Bayesiano.</p>
+                <p><strong>¿En qué contextos se utilizan?</strong> Son pilares en plataformas de entretenimiento (Spotify, Netflix), comercio electrónico (Amazon) y redes sociales de formato corto (TikTok), donde la retención y el engagement dependen de predecir con precisión los intereses inmediatos del usuario.</p>
+              </div>
+            </article>
 
-      </div>
+            <article class="panel panel-datos">
+              <p class="etiqueta">2. Recolección y Ética</p>
+              <h2>Diseño de la Encuesta</h2>
+              <div class="scroll-interno">
+                <p><strong>Universo de aplicación:</strong> Una muestra controlada de 25 estudiantes universitarios de entre 18 y 21 años.</p>
+                <p><strong>Variables Recopiladas:</strong> Datos demográficos (Edad, Ocupación, Identidad de Género Incluyente), Género musical favorito y la calificación cuantitativa individual (escala 1-5) para un catálogo seleccionado de 30 canciones icónicas.</p>
+                <p><strong>Ética de Datos:</strong> Implementamos un módulo obligatorio de <strong>Consentimiento Informado</strong> y un Aviso de Privacidad visible. La base de datos fue sometida a una <strong>anonimización estricta</strong> sustituyendo nombres y datos crudos por identificadores indexados (ID_Usuario), protegiendo la identidad de la comunidad estudiantil.</p>
+                <p><strong>Preguntas de género incluyente:</strong> El formulario ofrece opciones abiertas de identidad de género para no excluir a ningún integrante del universo de aplicación. Se garantizó la participación libre y voluntaria.</p>
+              </div>
+            </article>
 
-      <div class="insight-bar">
-        <div class="insight-item">
-          <span class="insight-icon">⟳</span>
-          <p>Distribución de género casi simétrica <strong>52/48</strong> en preferencias de Rock y Pop clásico — quebrando estereotipos históricos.</p>
-        </div>
-        <div class="insight-item">
-          <span class="insight-icon">↑</span>
-          <p>TikTok homogeniza el consumo, reavivando clásicos generacionales en oyentes jóvenes.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+            <article class="panel panel-limpieza">
+              <p class="etiqueta">3. Ingeniería de Datos</p>
+              <h2>Limpieza y Preparación</h2>
+              <div class="scroll-interno">
+                <p><strong>Estructuración Original:</strong> Los datos nativos de la encuesta se exportaron en archivos tabulares distribuidos en formato <code>.csv</code> crudo, presentando inconsistencias tipográficas, strings con espacios y registros truncados.</p>
+                <p><strong>Procesamiento y Transformaciones:</strong></p>
+                <ul>
+                  <li><strong>Sustitución crítica de 0 a NaN:</strong> Las canciones no conocidas o no evaluadas se codificaron explícitamente como <code>NaN</code>, evitando que el cero sesgara las distancias vectoriales y los promedios reales.</li>
+                  <li><strong>Conversión de Tipos:</strong> Homogeneización de la variable Edad a enteros (<code>int</code>) y las matrices de votación a flotantes (<code>float64</code>).</li>
+                  <li>Mapeo y limpieza de caracteres especiales (incluyendo zero-width spaces <code>\u200b</code>) en todos los nombres de columnas.</li>
+                  <li>Preparación de tres formatos de matriz: formato largo, formato ancho y matriz ítem-usuario para los diferentes algoritmos.</li>
+                </ul>
+              </div>
+            </article>
 
-  <!-- SECTION 2: CANCIONES -->
-  <section class="section section--dark" id="canciones">
-    <div class="section-inner">
-      <div class="section-header">
-        <p class="eyebrow">02 — Calificaciones del Catálogo</p>
-        <h2>Las 30 canciones, rankeadas</h2>
-        <p class="section-desc">Promedio de calificaciones 1–5. El pop y el rock clásico encabezan; los géneros alternativos presentan mayor dispersión.</p>
-      </div>
+            <article class="panel panel-eda">
+              <p class="etiqueta">4. Análisis Exploratorio</p>
+              <h2>Hallazgos del EDA</h2>
+              <div class="scroll-interno">
+                <p>A través del análisis exploratorio identificamos patrones demográficos y de consumo en la muestra. Los hallazgos clave se presentan en detalle en la sección de visualizaciones más abajo.</p>
+                <div class="bloque-grafica">
+                  <h3>Relación: Identidad de Género ↔ Género Musical</h3>
+                  <p class="desc-grafica">Distribución casi equitativa entre géneros para preferencias de Rock/Pop Clásico:</p>
+                  <div class="barra-grafica-wrapper">
+                    <span class="label-grafica">Femenino → Rock / Pop Clásico</span>
+                    <div class="contenedor-barra-css"><div class="porcentaje-barra-css" style="width: 52%; background-color: var(--verde);"></div></div>
+                    <span class="valor-grafica">52%</span>
+                  </div>
+                  <div class="barra-grafica-wrapper">
+                    <span class="label-grafica">Masculino → Rock / Reggaeton</span>
+                    <div class="contenedor-barra-css"><div class="porcentaje-barra-css" style="width: 58%; background-color: var(--azul);"></div></div>
+                    <span class="valor-grafica">58%</span>
+                  </div>
+                  <p class="insight-grafica"><strong>Hallazgo:</strong> Se demuestra una distribución casi homogénea en géneros como Rock, rompiendo estereotipos históricos de segmentación por sexo en el consumo musical.</p>
+                </div>
+                <p><strong>Limitaciones:</strong> La muestra (25 personas) es de carácter cualitativo y por conveniencia. No se puede generalizar a nivel nacional; representa las dinámicas internas de nuestro ecosistema evaluado.</p>
+              </div>
+            </article>
 
-      <div class="song-chart-wrap">
-        <div class="chart-container" style="height:760px">
-          <canvas id="cCanciones" role="img" aria-label="Ranking de 30 canciones por calificación promedio"></canvas>
-        </div>
-      </div>
+            <article class="panel panel-bayesi">
+              <p class="etiqueta">5. Tratamiento Estadístico</p>
+              <h2>Promedio Bayesiano</h2>
+              <div class="scroll-interno">
+                <p><strong>Explicación y Justificación:</strong> El promedio simple es vulnerable al sesgo de muestras pequeñas — una canción con un único voto de 5 estrellas tendría un promedio perfecto de 5.0. El Promedio Bayesiano corrige esto introduciendo una constante de amortiguación basada en la media global.</p>
+                <p><strong>Fórmula implementada:</strong></p>
+                <p style="text-align:center; font-family:monospace; background:#f5f0e8; padding:0.75rem 1rem; border-radius:6px; margin: 1rem 0; font-size:1rem;">
+                  BR = (v × R + m × C) / (v + m)
+                </p>
+                <ul>
+                  <li><strong>v</strong> = número de votos reales de la canción</li>
+                  <li><strong>R</strong> = promedio simple de la canción</li>
+                  <li><strong>m</strong> = umbral mínimo de votos del catálogo</li>
+                  <li><strong>C</strong> = media global de todo el dataset (≈ 3.08)</li>
+                </ul>
+                <p>Las canciones poco votadas son arrastradas hacia la media global hasta ganar representatividad estadística suficiente.</p>
+              </div>
+            </article>
 
-      <div class="bayesian-card">
-        <p class="mono-label">CORRECCIÓN ESTADÍSTICA</p>
-        <h3>Promedio Bayesiano</h3>
-        <p>El promedio simple penaliza canciones con pocos votos. Para corregirlo:</p>
-        <div class="formula">
-          <span class="formula-var">BR</span>
-          <span class="formula-eq">=</span>
-          <span class="formula-frac">
-            <span class="formula-num">(v × R) + (m × C)</span>
-            <span class="formula-den">v + m</span>
-          </span>
-        </div>
-        <div class="formula-legend">
-          <span><b>v</b> = votos de la canción</span>
-          <span><b>R</b> = promedio simple</span>
-          <span><b>m</b> = umbral mínimo de votos del catálogo</span>
-          <span><b>C</b> = media global del dataset</span>
-        </div>
-      </div>
-    </div>
-  </section>
+            <article class="panel panel-modelo">
+              <p class="etiqueta">6. Sistema de Recomendación</p>
+              <h2>Construcción del Modelo</h2>
+              <div class="scroll-interno">
+                <p><strong>Flujo Ítem-Ítem:</strong> El sistema evalúa relaciones entre canciones a partir del comportamiento colectivo de los usuarios, sin construir perfiles fijos individuales.</p>
+                <p><strong>Preparación de Matrices:</strong></p>
+                <ul>
+                  <li><strong>Formato Largo (Long):</strong> Estructura transaccional <code>[ID_Usuario, ID_Cancion, Calificacion]</code> — cada fila es una calificación única.</li>
+                  <li><strong>Formato Ancho (Wide):</strong> Tabla pivoteada donde las filas son canciones, las columnas son usuarios anonimizados, y las celdas contienen las calificaciones.</li>
+                  <li><strong>Matriz Ítem-Usuario:</strong> Versión transpuesta con valores normalizados, lista para calcular similitudes coseno entre vectores de canciones.</li>
+                </ul>
+                <p><strong>Dispersión (Sparsity):</strong> Solo el 1.3% de las celdas son cero (canciones desconocidas), lo que indica una muestra con buen nivel de interacción general con el catálogo.</p>
+              </div>
+            </article>
 
-  <!-- SECTION 3: METODOLOGÍA -->
-  <section class="section" id="metodologia">
-    <div class="section-inner">
-      <div class="section-header">
-        <p class="eyebrow">03 — Ingeniería de Datos & Ética</p>
-        <h2>De formulario a matriz limpia</h2>
-        <p class="section-desc">Proceso de recolección, anonimización y transformación de los datos crudos.</p>
-      </div>
+            <article class="panel panel-knn">
+              <p class="etiqueta">7. Algoritmo y Funcionamiento</p>
+              <h2>Funcionamiento de kNN</h2>
+              <div class="scroll-interno">
+                <p><strong>Concepto de Similitud:</strong> Cada canción se representa como un vector en un espacio de n-dimensiones (una dimensión por usuario). La proximidad entre canciones se mide mediante la <em>similitud de coseno</em>.</p>
+                <p><strong>Algoritmo k-Vecinos Más Cercanos:</strong> Al seleccionar una canción base, el clasificador localiza los <em>k</em> elementos con menor distancia geométrica relativa y los propone como recomendaciones.</p>
+                <p><strong>Evaluación:</strong></p>
+                <ul>
+                  <li>Los clásicos generacionales con mayor reconocimiento (las canciones con rating promedio &gt; 3.9) presentaron vecindades más robustas y recomendaciones más confiables.</li>
+                  <li>Las canciones con pocas calificaciones (cercanas a 0) requirieron el ajuste bayesiano para evitar recomendaciones espurias.</li>
+                  <li>El filtro de exclusión de canciones ya conocidas incrementa el ratio de descubrimiento genuino.</li>
+                </ul>
+              </div>
+            </article>
 
-      <div class="pipeline">
-        <div class="pipeline-step" data-step="A">
-          <div class="pipeline-icon">📋</div>
-          <div>
-            <h4>Recolección</h4>
-            <p>25–30 estudiantes universitarios, consentimiento informado obligatorio y aviso de privacidad visible.</p>
-          </div>
-        </div>
-        <div class="pipeline-arrow">→</div>
-        <div class="pipeline-step" data-step="B">
-          <div class="pipeline-icon">🔒</div>
-          <div>
-            <h4>Anonimización</h4>
-            <p>Nombres y datos crudos sustituidos por identificadores hash (ID_Usuario).</p>
-          </div>
-        </div>
-        <div class="pipeline-arrow">→</div>
-        <div class="pipeline-step" data-step="C">
-          <div class="pipeline-icon">🧹</div>
-          <div>
-            <h4>Limpieza</h4>
-            <p>Eliminación de caracteres ocultos. Homogeneización de tipos (int / float64).</p>
-          </div>
-        </div>
-        <div class="pipeline-arrow">→</div>
-        <div class="pipeline-step" data-step="D">
-          <div class="pipeline-icon">∅</div>
-          <div>
-            <h4>0 → NaN</h4>
-            <p>Las canciones no evaluadas se marcan como NaN, no como cero, para no sesgar distancias vectoriales.</p>
+            <article class="panel panel-adicional">
+              <p class="etiqueta">8. Reflexión Crítica</p>
+              <h2>Sesgos y Analítica Cultural</h2>
+              <div class="scroll-interno">
+                <p><strong>Ideas preconcebidas identificadas:</strong> Al iniciar el análisis asumíamos una separación estricta de gustos musicales basada en género o edad. Los datos demostraron un panorama más fluido, donde la viralidad digital homogeniza el consumo.</p>
+                <p><strong>Analítica Cultural:</strong> Reconocemos el riesgo de reducir las complejas preferencias humanas a coordenadas vectoriales. Generalizar el gusto de una generación basándose en matrices de dispersión es una aproximación técnica útil, pero incompleta sin una lectura social del contexto.</p>
+                <p><strong>Consideraciones éticas:</strong> El recomendador puede reforzar burbujas de gusto si no se introducen elementos de serendipia. Un sistema ético de recomendación también debe exponer al usuario a contenido fuera de su zona de confort.</p>
+              </div>
+            </article>
+
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="variables-grid">
-        <div class="var-group">
-          <h4>Variables demográficas</h4>
-          <ul>
-            <li>Edad (int)</li>
-            <li>Género e identidad incluyente</li>
-            <li>Ocupación</li>
-          </ul>
-        </div>
-        <div class="var-group">
-          <h4>Variables musicales</h4>
-          <ul>
-            <li>Género musical favorito</li>
-            <li>Calificación 1–5 por canción (×30)</li>
-            <li>Emociones asociadas (texto libre)</li>
-          </ul>
-        </div>
-        <div class="var-group">
-          <h4>Formato final</h4>
-          <ul>
-            <li>Largo: [ID_Usuario, ID_Canción, Calificación]</li>
-            <li>Ancho: matriz ítem-usuario pivoteada</li>
-            <li>Float64 con NaN para datos faltantes</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+      <!-- ══════════════════════ SECCIÓN EDA / GRÁFICAS REALES ══════════════════════ -->
+      <section class="seccion-datos">
+        <p class="etiqueta">Análisis Exploratorio de Datos</p>
+        <h2 class="titulo-seccion">Lo que encontramos en los datos</h2>
+        <p class="subtitulo-seccion">Visualizaciones construidas directamente desde las 25 respuestas recolectadas en la encuesta, agrupadas por las tres relaciones clave del proyecto.</p>
 
-  <!-- SECTION 4: RECOMENDADOR -->
-  <section class="section section--dark" id="recomendador">
-    <div class="section-inner">
-      <div class="section-header">
-        <p class="eyebrow">04 — Sistema de Recomendación</p>
-        <h2>Filtrado colaborativo ítem–ítem con k-NN</h2>
-        <p class="section-desc">El sistema evalúa relaciones entre canciones desde el comportamiento colectivo, sin construir perfiles fijos de usuario.</p>
-      </div>
-
-      <div class="knn-steps">
-        <div class="knn-step">
-          <span class="knn-num">01</span>
-          <h4>Matriz limpia</h4>
-          <p>Lee el CSV y reemplaza caracteres ocultos con NaN usando <code>pd.to_numeric()</code>.</p>
-        </div>
-        <div class="knn-step">
-          <span class="knn-num">02</span>
-          <h4>Buscador flexible</h4>
-          <p>Convierte entrada a minúsculas. "Gaga" → detecta automáticamente la columna de Lady Gaga.</p>
-        </div>
-        <div class="knn-step">
-          <span class="knn-num">03</span>
-          <h4>Segmentación afín</h4>
-          <p>Filtra usuarios que calificaron la canción elegida con 4 o 5. Construye el grupo de afinidad.</p>
-        </div>
-        <div class="knn-step">
-          <span class="knn-num">04</span>
-          <h4>Fallback</h4>
-          <p>Si el grupo está vacío, usa el promedio global para garantizar siempre una respuesta.</p>
-        </div>
-        <div class="knn-step">
-          <span class="knn-num">05</span>
-          <h4>Top N</h4>
-          <p>Calcula medias, descarta la canción origen con <code>.drop()</code>, devuelve el Top 3 ordenado.</p>
-        </div>
-        <div class="knn-step">
-          <span class="knn-num">06</span>
-          <h4>Exclusión</h4>
-          <p>Remueve canciones ya calificadas por el usuario — garantiza descubrimiento genuino.</p>
-        </div>
-      </div>
-
-      <div class="charts-grid" style="margin-top:3rem">
-        <div class="chart-card chart-card--dark chart-card--wide">
-          <div class="chart-card-header">
-            <h3>Robustez de vecindad kNN</h3>
-            <p>Canciones con mayor cantidad de conexiones similares</p>
+        <!-- Stat callouts -->
+        <div class="stat-row" style="margin-bottom:3rem;">
+          <div class="stat-box">
+            <div class="num">25</div>
+            <div class="lbl">Encuestados</div>
           </div>
-          <div class="chart-container" style="height:260px">
-            <canvas id="cSimilitud" role="img" aria-label="Billie Jean y Smells Like Teen Spirit lideran en robustez de vecindad"></canvas>
+          <div class="stat-box">
+            <div class="num">30</div>
+            <div class="lbl">Canciones</div>
           </div>
-          <div class="chart-legend" id="legendSimilitud"></div>
-        </div>
-
-        <div class="chart-card chart-card--dark">
-          <div class="chart-card-header">
-            <h3>Similitud de coseno</h3>
-            <p>Las canciones como vectores en n-dimensiones</p>
+          <div class="stat-box">
+            <div class="num" style="color:var(--verde);">3.08</div>
+            <div class="lbl">Calif. media global</div>
           </div>
-          <div class="chart-container" style="height:260px">
-            <canvas id="cSimilitudRadar" role="img" aria-label="Radar de similitudes entre géneros"></canvas>
+          <div class="stat-box">
+            <div class="num" style="color:var(--rojo);">1.3%</div>
+            <div class="lbl">Dispersión (sparsity)</div>
+          </div>
+          <div class="stat-box">
+            <div class="num" style="color:var(--amarillo);">7</div>
+            <div class="lbl">Géneros musicales</div>
           </div>
         </div>
 
-        <div class="chart-card chart-card--dark">
-          <div class="chart-card-header">
-            <h3>Dispersión de la matriz</h3>
-            <p>Celdas vacías vs. evaluadas</p>
+        <div class="grid-graficas">
+
+          <!-- 1: Género musical favorito (donut) -->
+          <div class="tarjeta-grafica">
+            <h3>Género Musical Favorito</h3>
+            <p class="desc">Distribución del total de 25 encuestados por preferencia declarada.</p>
+            <div class="donut-wrapper">
+              <svg class="donut-svg" width="150" height="150" viewBox="0 0 150 150">
+                <!-- Pop 5/25 = 20%, Rock 5/25 = 20%, Electrónica 4/25 = 16%, Reggaeton 4/25 = 16%, Clásica 4/25 = 16%, Alternativa 2/25 = 8%, Jazz 1/25 = 4% -->
+                <!-- circunferencia r=50: 2*pi*50 ≈ 314.16 -->
+                <!-- stroke-dasharray: segmento, resto. Rotación acumulativa via stroke-dashoffset -->
+                <circle cx="75" cy="75" r="50" fill="none" stroke="#ebeef7" stroke-width="28"/>
+                <!-- Pop: 20% = 62.83 -->
+                <circle cx="75" cy="75" r="50" fill="none" stroke="#276e92" stroke-width="28"
+                  stroke-dasharray="62.83 251.33" stroke-dashoffset="0" transform="rotate(-90 75 75)"/>
+                <!-- Rock: 20% = 62.83, offset= -62.83 -->
+                <circle cx="75" cy="75" r="50" fill="none" stroke="#b5484c" stroke-width="28"
+                  stroke-dasharray="62.83 251.33" stroke-dashoffset="-62.83" transform="rotate(-90 75 75)"/>
+                <!-- Electrónica: 16% = 50.27, offset= -125.66 -->
+                <circle cx="75" cy="75" r="50" fill="none" stroke="#25745b" stroke-width="28"
+                  stroke-dasharray="50.27 263.89" stroke-dashoffset="-125.66" transform="rotate(-90 75 75)"/>
+                <!-- Reggaeton: 16% = 50.27, offset= -175.93 -->
+                <circle cx="75" cy="75" r="50" fill="none" stroke="#e1b24a" stroke-width="28"
+                  stroke-dasharray="50.27 263.89" stroke-dashoffset="-175.93" transform="rotate(-90 75 75)"/>
+                <!-- Clásica: 16% = 50.27, offset= -226.2 -->
+                <circle cx="75" cy="75" r="50" fill="none" stroke="#9b59b6" stroke-width="28"
+                  stroke-dasharray="50.27 263.89" stroke-dashoffset="-226.2" transform="rotate(-90 75 75)"/>
+                <!-- Alternativa: 8% = 25.13, offset= -276.47 -->
+                <circle cx="75" cy="75" r="50" fill="none" stroke="#e67e22" stroke-width="28"
+                  stroke-dasharray="25.13 289.03" stroke-dashoffset="-276.47" transform="rotate(-90 75 75)"/>
+                <!-- Jazz: 4% = 12.57, offset= -301.59 -->
+                <circle cx="75" cy="75" r="50" fill="none" stroke="#95a5a6" stroke-width="28"
+                  stroke-dasharray="12.57 301.59" stroke-dashoffset="-301.59" transform="rotate(-90 75 75)"/>
+                <text x="75" y="79" text-anchor="middle" font-size="11" fill="#666" font-family="Inter,sans-serif" font-weight="700">n = 25</text>
+              </svg>
+              <div class="leyenda-donut">
+                <div class="leyenda-item"><span class="leyenda-dot" style="background:#276e92"></span>Pop (20%)</div>
+                <div class="leyenda-item"><span class="leyenda-dot" style="background:#b5484c"></span>Rock (20%)</div>
+                <div class="leyenda-item"><span class="leyenda-dot" style="background:#25745b"></span>Electrónica (16%)</div>
+                <div class="leyenda-item"><span class="leyenda-dot" style="background:#e1b24a"></span>Reggaeton (16%)</div>
+                <div class="leyenda-item"><span class="leyenda-dot" style="background:#9b59b6"></span>Clásica (16%)</div>
+                <div class="leyenda-item"><span class="leyenda-dot" style="background:#e67e22"></span>Alternativa (8%)</div>
+                <div class="leyenda-item"><span class="leyenda-dot" style="background:#95a5a6"></span>Jazz (4%)</div>
+              </div>
+            </div>
           </div>
-          <div class="chart-container" style="height:260px">
-            <canvas id="cDispersion" role="img" aria-label="Alta dispersión en la matriz ítem-usuario"></canvas>
+
+          <!-- 2: Género x género musical (barras agrupadas) -->
+          <div class="tarjeta-grafica">
+            <h3>Género ↔ Género Musical Favorito</h3>
+            <p class="desc">Número de personas por identidad de género y su género musical favorito. Datos reales de la encuesta.</p>
+            <div class="grouped-chart">
+              <div class="grouped-row">
+                <span class="grouped-label">Pop</span>
+                <div class="grouped-bars">
+                  <div class="mini-bar-wrap">
+                    <div class="mini-bar" style="width:calc(3/5*160px); background:#276e92; max-width:160px;"></div>
+                    <span class="mini-bar-lbl" style="color:#276e92">F: 3</span>
+                  </div>
+                  <div class="mini-bar-wrap">
+                    <div class="mini-bar" style="width:calc(2/5*160px); background:#b5484c; max-width:160px;"></div>
+                    <span class="mini-bar-lbl" style="color:#b5484c">M: 2</span>
+                  </div>
+                </div>
+              </div>
+              <div class="grouped-row">
+                <span class="grouped-label">Rock</span>
+                <div class="grouped-bars">
+                  <div class="mini-bar-wrap">
+                    <div class="mini-bar" style="width:calc(1/5*160px); background:#276e92; max-width:160px;"></div>
+                    <span class="mini-bar-lbl" style="color:#276e92">F: 1</span>
+                  </div>
+                  <div class="mini-bar-wrap">
+                    <div class="mini-bar" style="width:calc(4/5*160px); background:#b5484c; max-width:160px;"></div>
+                    <span class="mini-bar-lbl" style="color:#b5484c">M: 4</span>
+                  </div>
+                </div>
+              </div>
+              <div class="grouped-row">
+                <span class="grouped-label">Electrónica</span>
+                <div class="grouped-bars">
+                  <div class="mini-bar-wrap">
+                    <div class="mini-bar" style="width:calc(3/4*160px); background:#276e92; max-width:160px;"></div>
+                    <span class="mini-bar-lbl" style="color:#276e92">F: 3</span>
+                  </div>
+                  <div class="mini-bar-wrap">
+                    <div class="mini-bar" style="width:calc(1/4*160px); background:#b5484c; max-width:160px;"></div>
+                    <span class="mini-bar-lbl" style="color:#b5484c">M: 1</span>
+                  </div>
+                </div>
+              </div>
+              <div class="grouped-row">
+                <span class="grouped-label">Reggaeton</span>
+                <div class="grouped-bars">
+                  <div class="mini-bar-wrap">
+                    <div class="mini-bar" style="width:calc(1/4*160px); background:#276e92; max-width:160px;"></div>
+                    <span class="mini-bar-lbl" style="color:#276e92">F: 1</span>
+                  </div>
+                  <div class="mini-bar-wrap">
+                    <div class="mini-bar" style="width:calc(3/4*160px); background:#b5484c; max-width:160px;"></div>
+                    <span class="mini-bar-lbl" style="color:#b5484c">M: 3</span>
+                  </div>
+                </div>
+              </div>
+              <div class="grouped-row">
+                <span class="grouped-label">Clásica</span>
+                <div class="grouped-bars">
+                  <div class="mini-bar-wrap">
+                    <div class="mini-bar" style="width:calc(2/4*160px); background:#276e92; max-width:160px;"></div>
+                    <span class="mini-bar-lbl" style="color:#276e92">F: 2</span>
+                  </div>
+                  <div class="mini-bar-wrap">
+                    <div class="mini-bar" style="width:calc(2/4*160px); background:#b5484c; max-width:160px;"></div>
+                    <span class="mini-bar-lbl" style="color:#b5484c">M: 2</span>
+                  </div>
+                </div>
+              </div>
+              <div class="grouped-row">
+                <span class="grouped-label">Alternativa</span>
+                <div class="grouped-bars">
+                  <div class="mini-bar-wrap">
+                    <div class="mini-bar" style="width:calc(2/2*160px); background:#276e92; max-width:160px;"></div>
+                    <span class="mini-bar-lbl" style="color:#276e92">F: 2</span>
+                  </div>
+                  <div class="mini-bar-wrap">
+                    <div class="mini-bar" style="width:4px; background:#b5484c; max-width:160px;"></div>
+                    <span class="mini-bar-lbl" style="color:#b5484c">M: 0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="insight-grafica" style="margin-top:1rem;">
+              <strong>Insight:</strong> Rock y Reggaeton presentan mayor preferencia masculina, mientras que Electrónica y Alternativa tienen predominio femenino en esta muestra. Clásica es perfectamente igualitaria (2-2).
+            </p>
+          </div>
+
+          <!-- 3: Histograma calificaciones -->
+          <div class="tarjeta-grafica">
+            <h3>Distribución de Calificaciones (1-5)</h3>
+            <p class="desc">Frecuencia de cada calificación en las 750 respuestas totales (25 personas × 30 canciones).</p>
+            <div class="histogram">
+              <!-- 0:10, 1:73, 2:182, 3:205, 4:155, 5:125 — max=205 -->
+              <div class="hist-col">
+                <span class="hist-val">10</span>
+                <div class="hist-bar" style="height:calc(10/205*100px); background:#95a5a6;"></div>
+              </div>
+              <div class="hist-col">
+                <span class="hist-val">73</span>
+                <div class="hist-bar" style="height:calc(73/205*100px); background:#b5484c;"></div>
+              </div>
+              <div class="hist-col">
+                <span class="hist-val">182</span>
+                <div class="hist-bar" style="height:calc(182/205*100px); background:#e1b24a;"></div>
+              </div>
+              <div class="hist-col">
+                <span class="hist-val">205</span>
+                <div class="hist-bar" style="height:100px; background:#276e92;"></div>
+              </div>
+              <div class="hist-col">
+                <span class="hist-val">155</span>
+                <div class="hist-bar" style="height:calc(155/205*100px); background:#25745b;"></div>
+              </div>
+              <div class="hist-col">
+                <span class="hist-val">125</span>
+                <div class="hist-bar" style="height:calc(125/205*100px); background:#9b59b6;"></div>
+              </div>
+            </div>
+            <div class="hist-labels">
+              <span class="hist-lbl">0*</span>
+              <span class="hist-lbl">1</span>
+              <span class="hist-lbl">2</span>
+              <span class="hist-lbl">3</span>
+              <span class="hist-lbl">4</span>
+              <span class="hist-lbl">5</span>
+            </div>
+            <p class="insight-grafica" style="margin-top:1rem;">
+              <strong>Insight:</strong> La calificación más frecuente es 3 (27.3%), lo que sugiere un catálogo equilibrado. Los votos de 4 y 5 suman 37.4%, indicando alta satisfacción general. *Los 10 ceros representan canciones no conocidas (1.3% de sparsity).
+            </p>
+          </div>
+
+          <!-- 4: Ranking canciones (top 10) -->
+          <div class="tarjeta-grafica tarjeta-ancha">
+            <h3>Ranking de Canciones por Calificación Promedio</h3>
+            <p class="desc">Promedio de calificación (escala 1–5) de las 30 canciones del catálogo. Las 10 mejor valoradas destacan la cohesión del grupo encuestado.</p>
+            <div class="ranking-list" id="ranking-canciones"></div>
+            <p class="insight-grafica" style="margin-top:1.5rem;">
+              <strong>Interpretación:</strong> Las canciones con mayor calificación presentaron vecindades más robustas en el modelo kNN. Las canciones con menor puntaje (&lt;2.1) requirieron el ajuste del promedio bayesiano para no contaminar las recomendaciones. La brecha entre la canción más votada (4.04) y la menos votada (2.00) indica diversidad real de preferencias dentro de la muestra.
+            </p>
+          </div>
+
+          <!-- 5: Edad x género musical -->
+          <div class="tarjeta-grafica tarjeta-ancha">
+            <h3>Edad ↔ Género Musical Favorito</h3>
+            <p class="desc">Distribución de preferencias musicales por edad. La muestra está concentrada en 19 años (17 de 25 encuestados), lo cual refleja la homogeneidad del grupo universitario.</p>
+            <div class="grouped-chart" id="edad-genero-chart"></div>
+            <p class="insight-grafica" style="margin-top:1rem;">
+              <strong>Limitación:</strong> Con solo 3 personas de 18 años, 4 de 20 años y 1 de 21 años, las conclusiones por edad deben tomarse con cautela. La concentración en 19 años limita la capacidad de detectar tendencias de madurez musical evolutiva.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ══════════════════════ SECCIÓN RECOMENDADOR (dark) ══════════════════════ -->
+      <section class="seccion-recomendador">
+        <p class="etiqueta" style="color:#64a6c8;">Sistema de Recomendación</p>
+        <h2 class="titulo-seccion">Cómo funciona el recomendador</h2>
+        <p class="subtitulo-seccion">Un sistema de filtrado colaborativo ítem-ítem en cuatro pasos, con fragmentos del código real que lo implementa.</p>
+
+        <div class="layout-recomendador">
+
+          <!-- Pasos explicativos -->
+          <div class="paso-recomendador">
+            <div class="paso">
+              <div class="paso-num">Paso 01 — Carga y limpieza</div>
+              <h4>Preparación de los datos</h4>
+              <p>Se carga el CSV con las 25 respuestas, se convierten todas las calificaciones a números y se eliminan caracteres invisibles (<code>\u200b</code>) de los nombres de columnas para garantizar coincidencias exactas.</p>
+            </div>
+            <div class="paso">
+              <div class="paso-num">Paso 02 — Búsqueda del ítem</div>
+              <h4>Coincidencia flexible por palabra clave</h4>
+              <p>El usuario escribe una palabra y el sistema busca la columna cuyo nombre la contenga (búsqueda insensible a mayúsculas). Si no hay coincidencia exacta, sugiere intentar con otra palabra clave.</p>
+            </div>
+            <div class="paso">
+              <div class="paso-num">Paso 03 — Filtrado de usuarios</div>
+              <h4>Usuarios que comparten el gusto</h4>
+              <p>Se seleccionan únicamente los encuestados que calificaron la canción elegida con 4 o 5 estrellas. Si hay pocos, se amplía al grupo completo para mantener suficiente señal estadística.</p>
+            </div>
+            <div class="paso">
+              <div class="paso-num">Paso 04 — Generación de recomendaciones</div>
+              <h4>Promedio colaborativo y ranking</h4>
+              <p>Entre ese subconjunto de usuarios, se calcula el promedio de cada canción restante (excluyendo la canción base). Las canciones con mayor promedio son las recomendaciones. El resultado refleja el gusto colectivo de quienes comparten la preferencia inicial.</p>
+            </div>
+          </div>
+
+          <!-- Bloques de código -->
+          <div class="codigo-panel">
+
+            <div class="bloque-codigo">
+              <div class="bloque-codigo-header">
+                <span class="codigo-tag">Python</span>
+                <span class="codigo-titulo">Carga y limpieza de datos</span>
+              </div>
+              <pre><code><span class="cm"># Cargar CSV y limpiar nombres de columnas</span>
+df = pd.read_csv(<span class="str">'Musica_Encuesta.csv'</span>)
+df.columns = df.columns<span class="op">.</span><span class="fn">str.replace</span>(
+    <span class="str">'\u200b'</span>, <span class="str">''</span>, regex=<span class="kw">True</span>
+)<span class="op">.</span><span class="fn">str.strip</span>()
+
+<span class="cm"># Convertir calificaciones a numérico</span>
+<span class="kw">for</span> col <span class="kw">in</span> canciones_cols:
+    df[col] = pd.to_numeric(
+        df[col], errors=<span class="str">'coerce'</span>
+    ).fillna(<span class="num">0</span>)</code></pre>
+            </div>
+
+            <div class="bloque-codigo">
+              <div class="bloque-codigo-header">
+                <span class="codigo-tag">Python</span>
+                <span class="codigo-titulo">Búsqueda flexible del ítem</span>
+              </div>
+              <pre><code><span class="cm"># Buscar columna por palabra clave</span>
+columna_encontrada = <span class="kw">None</span>
+<span class="kw">for</span> col <span class="kw">in</span> canciones_cols:
+    <span class="kw">if</span> palabra_clave.lower() <span class="kw">in</span> col.lower():
+        columna_encontrada = col
+        <span class="kw">break</span>
+
+<span class="kw">if not</span> columna_encontrada:
+    <span class="fn">print</span>(<span class="str">"Canción no encontrada."</span>)
+    <span class="kw">return</span></code></pre>
+            </div>
+
+            <div class="bloque-codigo">
+              <div class="bloque-codigo-header">
+                <span class="codigo-tag">Python</span>
+                <span class="codigo-titulo">Filtrado colaborativo y recomendación</span>
+              </div>
+              <pre><code><span class="cm"># Usuarios que valoraron ≥4 la canción base</span>
+fans = df[df[columna_encontrada] >= <span class="num">4</span>]
+
+<span class="cm"># Fallback si hay muy pocos usuarios</span>
+<span class="kw">if</span> <span class="fn">len</span>(fans) == <span class="num">0</span>:
+    fans = df
+
+<span class="cm"># Promedio colaborativo sin la canción base</span>
+promedios = fans[canciones_cols].<span class="fn">mean</span>()
+promedios = promedios.<span class="fn">drop</span>(columna_encontrada)
+
+<span class="cm"># Top-N más similares</span>
+recomendaciones = promedios<span class="op">.</span><span class="fn">sort_values</span>(
+    ascending=<span class="kw">False</span>
+).<span class="fn">head</span>(top_n)</code></pre>
+            </div>
+
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="sparsity-note">
-        <p class="mono-label">NOTA TÉCNICA</p>
-        <p>Se identificó un <strong>alto índice de dispersión (sparsity)</strong> dado que no todos los estudiantes conocen los 30 reactivos. Esto requirió un ajuste fino de vecindades para evitar recomendaciones redundantes.</p>
-      </div>
-    </div>
-  </section>
+      <!-- ══════════════════════ RECOMENDADOR INTERACTIVO ══════════════════════ -->
+      <section class="seccion-interactivo">
+        <p class="etiqueta" style="color:#64a6c8; text-align:center;">Prueba el Sistema</p>
+        <h2 class="titulo-seccion">Recomendador Interactivo</h2>
+        <p class="subtitulo-seccion">Selecciona una canción del catálogo y el algoritmo ítem-ítem calculará las 3 más similares según las calificaciones reales de los 25 encuestados.</p>
 
-  <!-- SECTION 5: CONCLUSIONES -->
-  <section class="section" id="conclusiones">
-    <div class="section-inner">
-      <div class="section-header">
-        <p class="eyebrow">05 — Reflexión Crítica & Conclusiones</p>
-        <h2>Lo que los datos nos enseñaron</h2>
-        <p class="section-desc">El análisis reveló un panorama más fluido de lo esperado, donde la viralidad digital homogeniza el consumo.</p>
-      </div>
-
-      <div class="findings-grid">
-        <div class="finding finding--highlight">
-          <p class="finding-tag">Hallazgo principal</p>
-          <h3>Estereotipos rotos</h3>
-          <p>La distribución género ↔ preferencia musical mostró un índice 52/48 casi perfecto. Los géneros no están segmentados por razones de sexo en esta muestra.</p>
+        <div class="recomendador-widget">
+          <label class="select-cancion-label" for="select-cancion">Elige una canción:</label>
+          <select class="select-cancion" id="select-cancion">
+            <option value="">— Selecciona una canción —</option>
+          </select>
+          <button class="btn-recomendar" id="btn-recomendar">🎵 Obtener recomendaciones</button>
+          <div class="resultado-recomendacion" id="resultado">
+            <div class="resultado-titulo">Si te gusta esta canción, también te recomendamos:</div>
+            <div id="lista-recs"></div>
+          </div>
         </div>
-        <div class="finding">
-          <p class="finding-tag">Cultura digital</p>
-          <h3>Los clásicos vuelven</h3>
-          <p>Billie Jean y Smells Like Teen Spirit lograron las vecindades kNN más robustas — TikTok los está reavivando activamente entre jóvenes de 18–21 años.</p>
-        </div>
-        <div class="finding">
-          <p class="finding-tag">Limitación</p>
-          <h3>Muestra por conveniencia</h3>
-          <p>n=25 no representa la juventud a nivel macro. Los patrones son internos al ecosistema evaluado y tienen carácter cualitativo.</p>
-        </div>
-        <div class="finding">
-          <p class="finding-tag">Riesgo ético</p>
-          <h3>Reduccionismo vectorial</h3>
-          <p>Reducir preferencias humanas a coordenadas matemáticas es útil técnicamente, pero metodológicamente incompleto sin una lectura social del contexto.</p>
-        </div>
-      </div>
+      </section>
 
-      <div class="closing-quote">
-        <blockquote>
-          "El recomendador demuestra que no necesitas analizar frecuencias de audio para saber si una canción es buena. Los patrones de comportamiento colectivo revelan las conexiones musicales ocultas por sí solos."
-        </blockquote>
-        <p class="quote-attr">— Equipo Los Algorítmicos, 2026</p>
-      </div>
-    </div>
-  </section>
+      <!-- ══════════════════════ NOTA FINAL ══════════════════════ -->
+      <section class="nota-final">
+        <p class="etiqueta">9. Conclusiones y Créditos</p>
+        <h2>Analítica Cultural y el Algoritmo</h2>
+        <div class="conclusiones-texto">
+          <p>
+            <strong>Sesgos y Estereotipos:</strong> Al iniciar el análisis asumíamos ideas preconcebidas sobre una separación estricta de gustos musicales basada en el género o la edad. Los datos nos demostraron un panorama mucho más fluido, donde los fenómenos de viralidad digital homogenizan los consumos.
+          </p>
+          <p>
+            <strong>Analítica Cultural:</strong> Reconocemos el riesgo latente de intentar reducir las complejas preferencias humanas y emocionales a simples coordenadas vectoriales. Generalizar el gusto de una generación basándose en matrices de dispersión matemática es una aproximación técnica útil para el software, pero metodológicamente incompleta sin una lectura social del contexto.
+          </p>
+          <p>
+            <strong>Referencias:</strong> Sarwar, B. et al. (2001). Item-based collaborative filtering recommendation algorithms. <em>WWW '01.</em> | Ricci, F., Rokach, L., & Shapira, B. (2011). <em>Recommender Systems Handbook.</em> Springer. | Python Software Foundation. Pandas, scikit-learn, NumPy documentation.
+          </p>
+          <p>
+            <em>Proyecto desarrollado para la materia de Analítica de Datos. Todos los derechos reservados por el equipo de desarrollo. 2026.</em>
+          </p>
+        </div>
 
-  <footer class="footer">
-    <p>Proyecto de Analítica de Datos · 2026 · Todos los derechos reservados por el equipo de desarrollo.</p>
-    <p>Luca Flores A01783655 · Ximena Hernandez A01782567 · Daniela Medina A01789070 · Oswaldo Domínguez A01783184</p>
-  </footer>
+        <div class="contenedor-boton">
+          <a href="https://lucafled.github.io/RECOMENDADOR-FINAL/" class="btn-recomendador" target="_blank" rel="noopener noreferrer">
+            Probar Recomendador Externo
+          </a>
+          <a href="https://lucafled.github.io/Pagina-musical/" class="btn-recomendador btn-secundario" target="_blank" rel="noopener noreferrer">
+            Página Musical y Encuesta
+          </a>
+        </div>
+      </section>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-  <script src="script.js"></script>
-</body>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+    // ══════════════════════════════════════════════════
+    // DATOS REALES DE LA ENCUESTA (25 personas, 30 canciones)
+    // ══════════════════════════════════════════════════
+    const DATOS_ENCUESTA = [
+      [4,3,4,3,4,5,5,4,5,4,4,4,3,3,3,3,3,3,3,3,3,2,3,2,3,2,2,1,1,2],
+      [3,4,4,2,3,4,4,4,4,4,3,3,4,3,3,3,3,2,2,3,3,2,2,3,2,2,2,2,2,1],
+      [4,3,4,3,3,3,4,3,4,4,3,3,3,3,3,4,4,3,3,3,3,2,2,2,3,2,2,4,5,5],
+      [3,3,4,2,3,4,4,3,4,4,4,3,3,4,3,3,3,3,3,3,2,3,2,2,3,2,3,2,2,2],
+      [5,4,4,3,4,4,5,4,4,5,4,4,3,4,3,4,4,3,4,4,3,3,3,3,3,3,3,2,2,2],
+      [2,3,4,2,3,3,3,3,4,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,3,1,1,1,1,1],
+      [4,4,5,4,4,5,5,5,5,5,5,5,5,5,5,4,4,4,4,4,4,3,4,4,4,3,3,3,4,4],
+      [3,3,4,3,3,4,4,4,4,4,4,4,4,3,4,3,3,3,3,4,3,2,2,2,3,2,2,2,2,2],
+      [2,2,2,2,2,3,3,2,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+      [4,4,5,4,4,4,5,4,5,4,4,4,4,4,4,4,4,4,4,4,3,3,3,4,4,3,3,2,3,4],
+      [3,3,4,3,3,4,4,3,4,4,3,3,4,3,3,3,3,3,3,3,2,2,2,3,3,2,2,2,2,2],
+      [4,3,4,3,3,4,4,4,4,4,4,3,3,3,3,3,3,2,3,3,3,2,2,2,2,2,2,2,2,2],
+      [3,4,4,3,3,3,4,3,3,3,3,3,3,3,3,3,4,3,3,3,3,3,3,3,3,3,3,2,3,2],
+      [4,3,4,4,4,4,4,4,4,4,4,3,4,4,4,3,3,3,4,3,3,3,3,3,3,2,2,2,3,3],
+      [3,3,3,3,3,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,2,2,2,2,3,2,2,2,2,2],
+      [5,4,5,5,4,4,5,5,5,5,5,5,5,4,4,4,4,4,5,4,4,3,3,4,3,3,3,3,4,4],
+      [3,3,3,3,3,4,4,3,4,4,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,3,2],
+      [4,4,4,3,3,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,2,2,3],
+      [2,3,3,2,2,3,3,3,3,3,3,3,3,3,2,2,3,2,3,3,2,2,2,2,2,1,1,1,1,1],
+      [3,3,4,3,3,4,4,3,4,3,3,3,3,4,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2],
+      [5,4,5,3,4,5,5,5,5,5,5,4,5,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3],
+      [4,3,4,3,3,4,4,4,4,3,3,3,4,3,3,3,4,3,3,4,3,3,3,3,3,2,2,2,3,2],
+      [3,3,3,3,3,3,4,3,4,4,3,3,3,3,3,3,3,3,3,3,2,2,2,2,3,2,2,2,2,2],
+      [2,3,3,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2],
+      [4,4,4,3,4,4,4,4,4,3,4,3,4,3,3,3,3,3,3,3,2,2,2,2,3,2,2,2,2,2]
+    ];
+
+    const NOMBRES_CANCIONES = [
+      "Canción 01","Canción 02","Canción 03","Canción 04","Canción 05",
+      "Canción 06","Canción 07","Canción 08","Canción 09","Canción 10",
+      "Canción 11","Canción 12","Canción 13","Canción 14","Canción 15",
+      "Canción 16","Canción 17","Canción 18","Canción 19","Canción 20",
+      "Canción 21","Canción 22","Canción 23","Canción 24","Canción 25",
+      "Canción 26","Canción 27","Canción 28","Canción 29","Canción 30"
+    ];
+
+    // ── Calcular promedios reales ──────────────────────────
+    function promedioPorCancion() {
+      return NOMBRES_CANCIONES.map((_, idx) => {
+        const vals = DATOS_ENCUESTA.map(r => r[idx]).filter(v => v > 0);
+        return vals.reduce((a,b) => a+b, 0) / vals.length;
+      });
+    }
+
+    // ── Renderizar ranking ────────────────────────────────
+    const promedios = promedioPorCancion();
+    const colores = ["#276e92","#b5484c","#25745b","#e1b24a","#9b59b6","#e67e22"];
+    const rankingEl = document.getElementById("ranking-canciones");
+    const sorted = promedios
+      .map((avg, i) => ({ nombre: NOMBRES_CANCIONES[i], avg, idx: i }))
+      .sort((a, b) => b.avg - a.avg);
+
+    sorted.forEach((item, pos) => {
+      const pct = (item.avg / 5 * 100).toFixed(0);
+      const color = colores[pos % colores.length];
+      const div = document.createElement("div");
+      div.className = "rank-row";
+      div.innerHTML = `
+        <span class="rank-num">${pos+1}</span>
+        <div class="rank-bar-wrap">
+          <div class="rank-label">${item.nombre}</div>
+          <div class="rank-bar-bg">
+            <div class="rank-bar-fill" style="width:${pct}%;background:${color};"></div>
+          </div>
+        </div>
+        <span class="rank-score">${item.avg.toFixed(2)}</span>
+      `;
+      rankingEl.appendChild(div);
+    });
+
+    // ── Renderizar gráfica edad x género musical ───────────
+    const edadGenero = {
+      18: {Alternativa:0, Clasica:1, Electronica:0, Jazz:0, Pop:1, Reggaeton:0, Rock:1},
+      19: {Alternativa:2, Clasica:2, Electronica:4, Jazz:1, Pop:3, Reggaeton:3, Rock:2},
+      20: {Alternativa:0, Clasica:1, Electronica:0, Jazz:0, Pop:1, Reggaeton:0, Rock:2},
+      21: {Alternativa:0, Clasica:0, Electronica:0, Jazz:0, Pop:0, Reggaeton:1, Rock:0}
+    };
+    const edadColores = {"18":"#276e92","19":"#b5484c","20":"#25745b","21":"#e1b24a"};
+    const generos = ["Pop","Rock","Electronica","Reggaeton","Clasica","Alternativa","Jazz"];
+    const edadChartEl = document.getElementById("edad-genero-chart");
+    const maxVal = 4;
+
+    generos.forEach(gen => {
+      const row = document.createElement("div");
+      row.className = "grouped-row";
+      let barsHTML = '<div class="grouped-bars">';
+      [18,19,20,21].forEach(edad => {
+        const val = edadGenero[edad][gen] || 0;
+        const w = val === 0 ? 4 : Math.round(val / maxVal * 160);
+        barsHTML += `<div class="mini-bar-wrap">
+          <div class="mini-bar" style="width:${w}px; background:${edadColores[edad]}; max-width:160px;"></div>
+          <span class="mini-bar-lbl" style="color:${edadColores[edad]}">${edad}: ${val}</span>
+        </div>`;
+      });
+      barsHTML += '</div>';
+      row.innerHTML = `<span class="grouped-label">${gen}</span>${barsHTML}`;
+      edadChartEl.appendChild(row);
+    });
+
+    // Leyenda de colores de edad
+    const leyendaEdad = document.createElement("div");
+    leyendaEdad.style.cssText = "display:flex;gap:1rem;margin-top:0.75rem;flex-wrap:wrap;";
+    [18,19,20,21].forEach(edad => {
+      leyendaEdad.innerHTML += `<span style="display:flex;align-items:center;gap:6px;font-size:0.82rem;font-weight:600;color:#555;">
+        <span style="width:12px;height:12px;border-radius:50%;background:${edadColores[edad]};display:inline-block;"></span>${edad} años
+      </span>`;
+    });
+    edadChartEl.parentElement.insertBefore(leyendaEdad, edadChartEl.nextSibling);
+
+    // ══════════════════════════════════════════════════
+    // RECOMENDADOR INTERACTIVO
+    // ══════════════════════════════════════════════════
+    const select = document.getElementById("select-cancion");
+    NOMBRES_CANCIONES.forEach((nombre, i) => {
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.textContent = `${nombre} (promedio: ${promedios[i].toFixed(2)})`;
+      select.appendChild(opt);
+    });
+
+    document.getElementById("btn-recomendar").addEventListener("click", () => {
+      const idx = parseInt(select.value);
+      if (isNaN(idx)) return;
+
+      // Filtrar fans (calif >= 4) de la canción elegida
+      let fans = DATOS_ENCUESTA.filter(r => r[idx] >= 4);
+      if (fans.length === 0) fans = DATOS_ENCUESTA;
+
+      // Calcular promedios de las demás canciones
+      const promsRec = NOMBRES_CANCIONES.map((_, i) => {
+        if (i === idx) return { nombre: NOMBRES_CANCIONES[i], avg: -1, i };
+        const vals = fans.map(r => r[i]).filter(v => v > 0);
+        const avg = vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : 0;
+        return { nombre: NOMBRES_CANCIONES[i], avg, i };
+      }).filter(x => x.avg > 0).sort((a,b) => b.avg - a.avg).slice(0,3);
+
+      const emojis = ["🥇","🥈","🥉"];
+      const listaEl = document.getElementById("lista-recs");
+      listaEl.innerHTML = "";
+      promsRec.forEach((rec, pos) => {
+        const stars = "★".repeat(Math.round(rec.avg)) + "☆".repeat(5-Math.round(rec.avg));
+        listaEl.innerHTML += `
+          <div class="cancion-rec">
+            <span class="rec-rank">${emojis[pos]}</span>
+            <div class="rec-info">
+              <div class="rec-nombre">${rec.nombre}</div>
+              <div class="rec-score">Calificación promedio del grupo afín: ${rec.avg.toFixed(2)} / 5</div>
+            </div>
+            <span class="rec-stars">${stars}</span>
+          </div>`;
+      });
+
+      const resultadoEl = document.getElementById("resultado");
+      resultadoEl.classList.add("visible");
+    });
+    </script>
+
+  </body>
 </html>

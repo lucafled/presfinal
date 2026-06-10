@@ -489,16 +489,18 @@ recomendaciones = promedios\
   <div class="seccion-encabezado" style="text-align:center; margin-bottom:2.5rem;">
     <span class="chip-seccion oscuro">🎶 Sistema en vivo</span>
     <h2 class="titulo-seccion" style="color:#fff;">Prueba el Recomendador</h2>
-    <p class="subtitulo-seccion" style="color:#8fa3b8; margin:0 auto;">Elige una canción del catálogo y el algoritmo ítem-ítem calculará las recomendaciones más similares, usando las calificaciones reales de los 25 encuestados.</p>
+    <p class="subtitulo-seccion" style="color:#8fa3b8; margin:0 auto;">Elige una canción del catálogo y el algoritmo ítem-ítem calculará las recomendaciones más similares, usando las calificaciones reales de los 29 encuestados.</p>
   </div>
 
   <div class="rec-widget">
     <label class="rec-label" for="rec-select">1. Elige una canción base:</label>
-    <select class="rec-select" id="rec-select">
-      <option value="">— Selecciona del catálogo —</option>
-    </select>
+    <div class="rec-search-wrap">
+      <input type="text" id="rec-search" class="rec-search-input" placeholder="🔍 Busca por título o artista..." autocomplete="off">
+      <div id="rec-dropdown" class="rec-dropdown" style="display:none;"></div>
+    </div>
+    <div id="rec-selected-display" class="rec-selected-display" style="display:none;"></div>
 
-    <label class="rec-label">2. ¿Cuántas recomendaciones?</label>
+    <label class="rec-label" style="margin-top:1.25rem;">2. ¿Cuántas recomendaciones?</label>
     <div class="rec-n-row">
       <div class="rec-n-btns">
         <button class="rec-n-btn activo" data-n="3">Top 3</button>
@@ -516,6 +518,45 @@ recomendaciones = promedios\
     </div>
   </div>
 </section>
+
+<!-- ════════════════════════════════════════
+     MODAL CANCIÓN
+════════════════════════════════════════ -->
+<div id="song-modal" class="song-modal-overlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="song-modal-card">
+    <button class="modal-close" id="modal-close" aria-label="Cerrar">✕</button>
+    <div class="modal-genre-badge" id="modal-genre"></div>
+    <h3 class="modal-song-title" id="modal-title"></h3>
+    <p class="modal-artist" id="modal-artist"></p>
+
+    <div class="modal-qr-wrap">
+      <p class="modal-qr-label">Escanea para buscar en Spotify</p>
+      <canvas id="modal-qr-canvas" width="160" height="160"></canvas>
+    </div>
+
+    <div class="modal-platforms">
+      <p class="modal-platforms-label">También disponible en:</p>
+      <div class="modal-platform-btns">
+        <a id="btn-spotify" class="platform-btn spotify" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          Spotify
+        </a>
+        <a id="btn-youtube" class="platform-btn youtube" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          YouTube
+        </a>
+        <a id="btn-apple" class="platform-btn apple" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+          Apple Music
+        </a>
+        <a id="btn-deezer" class="platform-btn deezer" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.81 4.16v3.03H24V4.16h-5.19zM6.27 8.38v3.03h5.19V8.38H6.27zm6.27 0v3.03h5.19V8.38h-5.19zm6.27 0v3.03H24V8.38h-5.19zM6.27 12.6v3.03h5.19V12.6H6.27zm6.27 0v3.03h5.19V12.6h-5.19zm6.27 0v3.03H24V12.6h-5.19zM0 16.81v3.03h5.19v-3.03H0zm6.27 0v3.03h5.19v-3.03H6.27zm6.27 0v3.03h5.19v-3.03h-5.19zm6.27 0v3.03H24v-3.03h-5.19z"/></svg>
+          Deezer
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ════════════════════════════════════════
      NOTA FINAL
@@ -560,41 +601,112 @@ recomendaciones = promedios\
 </main>
 
 <script src="script.js"></script>
+<!-- QR Code library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 // ══════════════════════════════════════════════════════
-//  DATOS REALES (25 personas × 30 canciones)
-//  Fuente: Respuestas_limpias.xlsx → Respuestas_encuesta-2
+//  DATOS REALES (29 personas × 30 canciones)
+//  Fuente: Musica_Encuesta_Completa_copy.csv
 // ══════════════════════════════════════════════════════
 const DATOS = [
-  [3,4,5,3,3,5,4,5,5,4,3,2,3,3,2,3,4,3,4,4,2,2,2,2,3,1,0,1,1,2],
-  [2,3,3,2,3,3,5,3,4,3,5,5,5,5,4,2,3,2,2,2,3,2,3,3,3,1,1,2,2,1],
-  [1,2,3,2,2,4,5,4,4,5,3,3,3,3,2,5,5,5,5,5,1,1,1,1,2,4,4,4,5,5],
-  [4,4,4,3,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,2,2,2,2,3,2,2,2,2,2],
-  [3,3,4,2,3,4,4,3,4,4,4,3,3,4,3,3,3,3,3,3,2,3,2,2,3,2,3,2,2,2],
-  [5,4,4,3,4,4,5,4,4,5,4,4,3,4,3,4,4,3,4,4,3,3,3,3,3,3,3,2,2,2],
-  [2,3,4,2,3,3,3,3,4,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,3,1,1,1,1,1],
-  [4,4,5,4,4,5,5,5,5,5,5,5,5,5,5,4,4,4,4,4,4,3,4,4,4,3,3,3,4,4],
-  [3,3,4,3,3,4,4,4,4,4,4,4,4,3,4,3,3,3,3,4,3,2,2,2,3,2,2,2,2,2],
-  [2,2,2,2,2,3,3,2,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
-  [4,4,5,4,4,4,5,4,5,4,4,4,4,4,4,4,4,4,4,4,3,3,3,4,4,3,3,2,3,4],
-  [3,3,4,3,3,4,4,3,4,4,3,3,4,3,3,3,3,3,3,3,2,2,2,3,3,2,2,2,2,2],
-  [4,3,4,3,3,4,4,4,4,4,4,3,3,3,3,3,3,2,3,3,3,2,2,2,2,2,2,2,2,2],
-  [3,4,4,3,3,3,4,3,3,3,3,3,3,3,3,3,4,3,3,3,3,3,3,3,3,3,3,2,3,2],
-  [4,3,4,4,4,4,4,4,4,4,4,3,4,4,4,3,3,3,4,3,3,3,3,3,3,2,2,2,3,3],
-  [3,3,3,3,3,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,2,2,2,2,3,2,2,2,2,2],
-  [5,4,5,5,4,4,5,5,5,5,5,5,5,4,4,4,4,4,5,4,4,3,3,4,3,3,3,3,4,4],
-  [3,3,3,3,3,4,4,3,4,4,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,3,2],
-  [4,4,4,3,3,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,2,2,3],
-  [2,3,3,2,2,3,3,3,3,3,3,3,3,3,2,2,3,2,3,3,2,2,2,2,2,1,1,1,1,1],
-  [3,3,4,3,3,4,4,3,4,3,3,3,3,4,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2],
-  [5,4,5,3,4,5,5,5,5,5,5,4,5,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3],
-  [4,3,4,3,3,4,4,4,4,3,3,3,4,3,3,3,4,3,3,4,3,3,3,3,3,2,2,2,3,2],
-  [3,3,3,3,3,3,4,3,4,4,3,3,3,3,3,3,3,3,3,3,2,2,2,2,3,2,2,2,2,2],
-  [4,4,4,3,4,4,4,4,4,3,4,3,4,3,3,3,3,3,3,3,2,2,2,2,3,2,2,2,2,2]
+  [4,4,4,5,3,5,1,2,3,2,4,5,1,3,4,5,4,5,5,3,3,3,2,3,3,3,3,4,4,4],
+  [3,2,1,5,4,0,3,4,1,2,5,3,4,5,2,1,0,3,2,4,1,5,0,2,3,4,1,5,2,4],
+  [5,5,4,3,2,1,2,0,4,3,5,1,4,2,5,0,1,0,3,1,5,5,4,5,5,1,2,0,1,2],
+  [1,2,0,3,1,4,5,5,3,5,3,4,2,3,1,5,5,5,5,4,0,1,1,2,2,5,4,5,5,5],
+  [5,5,5,4,5,3,1,1,3,2,4,2,5,1,3,2,1,0,2,1,4,3,3,4,4,2,1,0,2,1],
+  [2,4,3,4,1,5,5,4,5,5,4,2,3,3,2,3,4,2,4,5,2,3,1,2,3,1,1,2,1,3],
+  [0,1,2,4,2,3,2,3,4,4,3,5,1,4,2,4,3,2,3,2,1,1,1,1,2,4,4,3,3,5],
+  [3,3,4,2,1,4,2,3,3,2,5,5,5,5,5,3,2,1,4,2,3,2,2,3,3,2,3,1,2,1],
+  [1,3,0,4,1,4,4,0,4,0,3,5,4,4,4,2,2,1,5,5,2,1,2,3,1,5,5,2,3,2],
+  [3,4,5,2,4,5,4,0,5,4,2,5,0,1,2,0,0,5,4,1,2,2,4,1,5,2,1,5,5,2],
+  [4,0,0,0,5,1,4,0,2,4,4,1,3,1,0,2,2,0,2,1,5,1,5,0,2,4,3,4,5,1],
+  [1,1,3,2,2,1,1,0,5,1,3,2,2,0,2,2,5,4,3,5,4,2,0,0,2,1,4,2,0,0],
+  [5,5,5,5,5,1,2,3,0,5,2,4,2,5,0,5,2,4,2,5,3,2,3,5,2,4,1,1,3,5],
+  [4,3,5,1,5,0,2,4,5,5,4,2,0,1,5,2,1,1,1,0,0,1,3,4,0,3,3,5,4,1],
+  [3,5,4,4,4,2,3,4,5,4,3,4,3,1,5,3,3,2,1,5,2,4,3,5,1,2,3,0,5,2],
+  [3,3,0,1,3,3,4,5,0,4,3,3,0,2,2,3,3,4,5,5,4,4,1,3,1,2,3,3,0,3],
+  [0,2,3,2,1,3,2,2,3,2,3,2,0,3,0,5,4,0,2,1,5,0,5,0,0,1,1,0,4,1],
+  [2,4,5,3,3,5,1,0,4,5,5,1,0,5,2,5,4,0,4,0,2,4,3,5,2,0,4,5,2,0],
+  [4,2,2,1,0,2,3,1,3,4,4,5,3,2,0,3,2,1,3,1,2,2,2,2,4,5,2,4,0,4],
+  [1,2,5,4,2,3,4,4,2,3,5,4,2,2,5,3,2,2,2,1,0,5,1,2,0,5,4,5,1,1],
+  [0,0,4,2,5,1,5,3,0,0,4,2,3,3,3,2,1,0,2,3,0,0,3,3,0,4,5,5,0,1],
+  [0,4,5,0,1,5,1,2,5,0,1,1,1,4,0,1,0,3,3,5,4,3,2,0,1,2,5,2,5,3],
+  [4,5,4,2,3,0,3,5,2,5,3,2,4,4,3,3,0,4,0,3,5,2,4,2,0,0,1,5,4,4],
+  [3,2,2,5,0,1,2,3,5,3,2,5,3,4,0,3,0,2,2,2,0,3,4,0,5,4,3,3,0,1],
+  [4,1,5,1,2,4,0,4,3,0,1,0,3,0,5,1,3,5,2,4,5,2,3,3,3,1,3,4,1,3],
+  [3,1,3,4,3,2,2,4,4,3,3,2,1,5,1,4,3,1,3,0,2,5,3,5,3,3,5,5,1,3],
+  [2,4,5,3,5,0,2,5,4,3,2,5,5,3,4,0,4,0,1,5,5,2,1,5,0,3,0,5,5,0],
+  [1,1,0,4,3,4,5,1,3,4,1,1,3,5,2,3,2,5,0,3,2,5,4,1,0,3,2,4,2,5],
+  [3,2,0,4,5,5,0,4,5,3,2,1,4,2,1,5,1,4,2,5,5,5,5,1,5,0,5,5,0,2]
 ];
 
-const CANCIONES = Array.from({length:30}, (_,i) => `Canción ${String(i+1).padStart(2,'0')}`);
+const CANCIONES = [
+  "Take Five — Dave Brubeck",
+  "Fly Me to the Moon — Frank Sinatra",
+  "What a Wonderful World — Louis Armstrong",
+  "Feeling Good — Nina Simone",
+  "My Favorite Things — John Coltrane",
+  "Billie Jean — Michael Jackson",
+  "Shape of You — Ed Sheeran",
+  "Bad Romance — Lady Gaga",
+  "Rolling in the Deep — Adele",
+  "Blinding Lights — The Weeknd",
+  "Bohemian Rhapsody — Queen",
+  "Smells Like Teen Spirit — Nirvana",
+  "Hotel California — Eagles",
+  "Sweet Child o' Mine — Guns N' Roses",
+  "Stairway to Heaven — Led Zeppelin",
+  "One More Time — Daft Punk",
+  "Levels — Avicii",
+  "Animals — Martin Garrix",
+  "Titanium — David Guetta",
+  "Clarity — Zedd",
+  "Für Elise — Ludwig van Beethoven",
+  "The Four Seasons — Antonio Vivaldi",
+  "Swan Lake — Pyotr Ilyich Tchaikovsky",
+  "Moonlight Sonata — Ludwig van Beethoven",
+  "Canon in D — Johann Pachelbel",
+  "Consciousness — Anyma",
+  "Atlas — ARTBAT",
+  "Age of Love — Charlotte de Witte",
+  "Afterlife — Tale Of Us",
+  "Eternity — Anyma"
+];
+
+// Genre mapping for display
+const SONG_GENRES = [
+  "Jazz","Jazz","Jazz","Jazz","Jazz",
+  "Pop","Pop","Pop","Pop","Pop",
+  "Rock","Rock","Rock","Rock","Rock",
+  "Electrónica","Electrónica","Electrónica","Electrónica","Electrónica",
+  "Clásica","Clásica","Clásica","Clásica","Clásica",
+  "Trip-Hop","Trip-Hop","Trip-Hop","Trip-Hop","Trip-Hop"
+];
+
+const GENRE_COLORS = {
+  "Jazz": "#f0b429",
+  "Pop": "#3b7dd8",
+  "Rock": "#e05260",
+  "Electrónica": "#2a9d72",
+  "Clásica": "#8b5cf6",
+  "Trip-Hop": "#f97316"
+};
+
+// Platform search URLs
+function getPlatformURLs(songName) {
+  const parts = songName.split(' — ');
+  const title = parts[0] ? parts[0].trim() : songName;
+  const artist = parts[1] ? parts[1].trim() : '';
+  const q = encodeURIComponent(`${title} ${artist}`);
+  return {
+    spotify: `https://open.spotify.com/search/${q}`,
+    youtube: `https://www.youtube.com/results?search_query=${q}`,
+    apple: `https://music.apple.com/search?term=${q}`,
+    deezer: `https://www.deezer.com/search/${q}`
+  };
+}
 const COLORES = ['#3b7dd8','#e05260','#2a9d72','#f0b429','#8b5cf6','#f97316','#14b8a6','#ec4899'];
+
 
 // ── Promedios por canción ────────────────────────────────────────────────────
 function avgPorCancion() {
@@ -690,17 +802,61 @@ sorted.forEach((item, pos) => {
 });
 
 // ══════════════════════════════════════════════════════
-//  RECOMENDADOR INTERACTIVO
+//  RECOMENDADOR INTERACTIVO — versión mejorada
 // ══════════════════════════════════════════════════════
 let topN = 3;
+let selectedSongIdx = -1;
 
-// Llenar select con canciones + promedio
-const recSelect = document.getElementById('rec-select');
-sorted.forEach(item => {
-  const opt = document.createElement('option');
-  opt.value = item.i;
-  opt.textContent = `${item.nombre}  (prom. ${item.avg.toFixed(2)} ⭐)`;
-  recSelect.appendChild(opt);
+// ── Búsqueda con autocompletado ─────────────────────────────
+const searchInput = document.getElementById('rec-search');
+const dropdown = document.getElementById('rec-dropdown');
+const selectedDisplay = document.getElementById('rec-selected-display');
+
+function buildDropdown(query) {
+  const q = query.toLowerCase().trim();
+  if (!q) { dropdown.style.display = 'none'; return; }
+  const matches = CANCIONES.map((name, i) => ({ name, i, avg: AVGS[i] }))
+    .filter(item => item.name.toLowerCase().includes(q));
+  if (!matches.length) { dropdown.style.display = 'none'; return; }
+  dropdown.innerHTML = '';
+  matches.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'rec-dropdown-item';
+    const genre = SONG_GENRES[item.i];
+    const color = GENRE_COLORS[genre] || '#8fa3b8';
+    div.innerHTML = `<span class="dd-genre-dot" style="background:${color};"></span>
+      <span class="dd-name">${item.name}</span>
+      <span class="dd-avg">${item.avg.toFixed(2)} ⭐</span>`;
+    div.addEventListener('click', () => selectSong(item.i));
+    dropdown.appendChild(div);
+  });
+  dropdown.style.display = 'block';
+}
+
+function selectSong(idx) {
+  selectedSongIdx = idx;
+  const genre = SONG_GENRES[idx];
+  const color = GENRE_COLORS[genre] || '#8fa3b8';
+  selectedDisplay.innerHTML = `
+    <span class="sel-genre-badge" style="background:${color}20;color:${color};border-color:${color}40;">${genre}</span>
+    <span class="sel-song-name">${CANCIONES[idx]}</span>
+    <span class="sel-avg">${AVGS[idx].toFixed(2)} ⭐</span>
+    <button class="sel-clear" onclick="clearSelection()">✕</button>`;
+  selectedDisplay.style.display = 'flex';
+  searchInput.value = '';
+  dropdown.style.display = 'none';
+}
+
+window.clearSelection = function() {
+  selectedSongIdx = -1;
+  selectedDisplay.style.display = 'none';
+  searchInput.value = '';
+};
+
+searchInput.addEventListener('input', e => buildDropdown(e.target.value));
+searchInput.addEventListener('focus', e => { if (e.target.value) buildDropdown(e.target.value); });
+document.addEventListener('click', e => {
+  if (!e.target.closest('.rec-search-wrap')) dropdown.style.display = 'none';
 });
 
 // Botones top-N
@@ -712,26 +868,26 @@ document.querySelectorAll('.rec-n-btn').forEach(btn => {
   });
 });
 
-// Ejecutar recomendador
+// ── Algoritmo recomendador ───────────────────────────────────
 document.getElementById('btn-rec').addEventListener('click', () => {
-  const idx = parseInt(recSelect.value);
-  if (isNaN(idx)) {
-    alert('Elige una canción primero 🎵');
+  const idx = selectedSongIdx;
+  if (idx < 0) {
+    searchInput.focus();
+    searchInput.style.borderColor = '#e05260';
+    setTimeout(() => searchInput.style.borderColor = '', 1200);
     return;
   }
 
-  // Filtrar fans (calificación >= 4)
   let fans = DATOS.filter(r => r[idx] >= 4);
   const useFallback = fans.length === 0;
   if (useFallback) fans = DATOS;
 
-  // Calcular promedios del grupo afín sobre el resto
-  const recs = CANCIONES.map((_,i) => {
+  const recs = CANCIONES.map((_, i) => {
     if (i === idx) return null;
     const vals = fans.map(r => r[i]).filter(v => v > 0);
-    const avg = vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : 0;
-    return {nombre: CANCIONES[i], avg, i, votos: vals.length};
-  }).filter(Boolean).sort((a,b) => b.avg - a.avg).slice(0, topN);
+    const avg = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+    return { nombre: CANCIONES[i], avg, i, votos: vals.length };
+  }).filter(Boolean).sort((a, b) => b.avg - a.avg).slice(0, topN);
 
   const emojis = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'];
   const listaEl = document.getElementById('lista-rec');
@@ -739,36 +895,133 @@ document.getElementById('btn-rec').addEventListener('click', () => {
 
   recs.forEach((rec, pos) => {
     const stars = '★'.repeat(Math.round(rec.avg)) + '☆'.repeat(5 - Math.round(rec.avg));
-    listaEl.innerHTML += `
-      <div class="cancion-rec">
-        <span class="rec-emoji">${emojis[pos] || `#${pos+1}`}</span>
-        <div class="rec-info">
-          <div class="rec-nombre">${rec.nombre}</div>
-          <div class="rec-desc">Basado en ${fans.length} usuarios con gusto similar · ${rec.votos} calificaciones</div>
+    const genre = SONG_GENRES[rec.i];
+    const gColor = GENRE_COLORS[genre] || '#8fa3b8';
+    const div = document.createElement('div');
+    div.className = 'cancion-rec';
+    div.innerHTML = `
+      <span class="rec-emoji">${emojis[pos] || '#' + (pos+1)}</span>
+      <div class="rec-info">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px;">
+          <span class="rec-genre-badge" style="background:${gColor}20;color:${gColor};border-color:${gColor}40;">${genre}</span>
         </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
-          <span class="rec-score-badge">${rec.avg.toFixed(2)} / 5</span>
-          <span class="rec-stars">${stars}</span>
-        </div>
+        <div class="rec-nombre">${rec.nombre}</div>
+        <div class="rec-desc">${rec.votos} calificaciones del grupo afín · prom. colectivo</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+        <span class="rec-score-badge">${rec.avg.toFixed(2)} / 5</span>
+        <span class="rec-stars">${stars}</span>
+        <button class="rec-escuchar-btn" data-idx="${rec.i}">🎧 Escuchar</button>
       </div>`;
+    listaEl.appendChild(div);
   });
 
-  const tituloEl = document.getElementById('resultado-titulo');
-  tituloEl.textContent = `Si te gusta "${CANCIONES[idx]}", el algoritmo recomienda:`;
+  // Botones "Escuchar"
+  listaEl.querySelectorAll('.rec-escuchar-btn').forEach(btn => {
+    btn.addEventListener('click', () => openSongModal(parseInt(btn.dataset.idx)));
+  });
+
+  document.getElementById('resultado-titulo').textContent =
+    `Si te gusta "${CANCIONES[idx]}", el algoritmo recomienda:`;
 
   const avisoEl = document.getElementById('rec-aviso');
-  if (useFallback) {
-    avisoEl.textContent = '⚠️ Nota: pocos usuarios calificaron esta canción con 4+. Se usó el promedio general como fallback (tal como el código original en Python).';
-    avisoEl.style.display = 'block';
-  } else {
-    avisoEl.textContent = `ℹ️ Metodología: Se filtraron ${fans.length} de 25 usuarios que calificaron esta canción con 4 o 5 estrellas. Sus promedios sobre las demás canciones determinan el ranking.`;
-    avisoEl.style.display = 'block';
-  }
+  avisoEl.textContent = useFallback
+    ? '⚠️ Pocos usuarios calificaron esta canción con 4+. Se usó el promedio general como fallback.'
+    : `ℹ️ ${fans.length} de 29 usuarios calificaron esta canción con 4–5 estrellas. Sus preferencias guían este ranking.`;
+  avisoEl.style.display = 'block';
 
   const resultEl = document.getElementById('resultado-rec');
   resultEl.classList.add('visible');
-  resultEl.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+  resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 });
+
+// ══════════════════════════════════════════════════════
+//  MODAL CON QR Y PLATAFORMAS
+// ══════════════════════════════════════════════════════
+let qrInstance = null;
+
+function openSongModal(idx) {
+  const songName = CANCIONES[idx];
+  const parts = songName.split(' — ');
+  const title = parts[0] ? parts[0].trim() : songName;
+  const artist = parts[1] ? parts[1].trim() : '';
+  const genre = SONG_GENRES[idx];
+  const gColor = GENRE_COLORS[genre] || '#8fa3b8';
+  const urls = getPlatformURLs(songName);
+
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-artist').textContent = artist;
+  const badge = document.getElementById('modal-genre');
+  badge.textContent = genre;
+  badge.style.background = gColor + '22';
+  badge.style.color = gColor;
+  badge.style.borderColor = gColor + '44';
+
+  // Platform links
+  document.getElementById('btn-spotify').href = urls.spotify;
+  document.getElementById('btn-youtube').href = urls.youtube;
+  document.getElementById('btn-apple').href = urls.apple;
+  document.getElementById('btn-deezer').href = urls.deezer;
+
+  // QR Code
+  const canvas = document.getElementById('modal-qr-canvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, 160, 160);
+
+  // Use QRCode library to generate QR on canvas
+  const tmpDiv = document.createElement('div');
+  if (qrInstance) { try { qrInstance.clear(); } catch(e){} }
+  tmpDiv.style.display = 'none';
+  document.body.appendChild(tmpDiv);
+  try {
+    qrInstance = new QRCode(tmpDiv, {
+      text: urls.spotify,
+      width: 150,
+      height: 150,
+      colorDark: '#0f1923',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    setTimeout(() => {
+      const qrImg = tmpDiv.querySelector('img') || tmpDiv.querySelector('canvas');
+      if (qrImg) {
+        if (qrImg.tagName === 'CANVAS') {
+          ctx.drawImage(qrImg, 5, 5, 150, 150);
+        } else {
+          const img = new Image();
+          img.onload = () => ctx.drawImage(img, 5, 5, 150, 150);
+          img.src = qrImg.src;
+        }
+      }
+      document.body.removeChild(tmpDiv);
+    }, 100);
+  } catch(e) {
+    document.body.removeChild(tmpDiv);
+    // Fallback: draw a placeholder
+    ctx.fillStyle = '#1a2840';
+    ctx.fillRect(0,0,160,160);
+    ctx.fillStyle = '#64a6c8';
+    ctx.font = '11px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('QR no disponible', 80, 75);
+    ctx.fillText('Usa el botón Spotify', 80, 92);
+  }
+
+  const modal = document.getElementById('song-modal');
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('song-modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function closeModal() {
+  document.getElementById('song-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
 </script>
 </body>
 </html>
